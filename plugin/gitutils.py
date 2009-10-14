@@ -10,6 +10,18 @@ class GitWrapper:
         finally:
             f.close()
 
+        return raw_changes
+
+    def _showfile(self, arg):
+        try:
+            f = os.popen("git --no-pager show %s" % arg)
+            raw_changes = f.read()
+        finally:
+            f.close()
+
+        return raw_changes
+
+
     def changed_revisions(self, fname):
         """returns the revisions in which the given file was changed"""
         raw_revisions = self._whatchanged(fname)
