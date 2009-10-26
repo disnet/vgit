@@ -1,4 +1,4 @@
-import vim, os
+import os
 
 class GitUtilsError(Exception):
     pass
