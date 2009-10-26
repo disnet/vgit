@@ -1,18 +1,20 @@
+from vim import eval, command
 from gitwrapper import *
+
 class GitUtils:
     """Vim utility methods related to git"""
-    def __init__(self, vi):
-        self.vi = vi
+    def working_file():
+        return eval("@%")
 
     def test():
-        name = vim.eval("@%")
+        name = self.working_file()
 
-        vim.command("silent keepjumps :open foo")
-        vim.command("setlocal bufhidden=delete")
-        vim.command("setlocal buftype=nofile")
-        vim.command("setlocal modifiable")
-        vim.command("setlocal noswapfile")
-        vim.command("setlocal nowrap")
+        command("silent keepjumps :open foo")
+        command("setlocal bufhidden=delete")
+        command("setlocal buftype=nofile")
+        command("setlocal modifiable")
+        command("setlocal noswapfile")
+        command("setlocal nowrap")
 
         output = os.popen("git --no-pager show HEAD:" + name).read()
         cb = vim.current.buffer
@@ -21,9 +23,5 @@ class GitUtils:
 
 
 def GitPreviousRevision():
-    v = vim.Vim()
-    git = GitUtils(v)
+    pass
 
-v = vim.Vim()
-
-v.current.buffer.append("foo")
