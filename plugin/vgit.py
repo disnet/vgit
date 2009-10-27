@@ -63,7 +63,21 @@ class GitWrapper:
 def _working_file():
     return vim.eval("@%")
 
+def _fillGitRevisionBuffer(fname, rev):
+    """Given a filename and a git revision fill a (possibly new) buffer
+    with the contents of the file at that revision"""
+    vim.command("silent keepjumps :open %s:%s" % (fname, rev))
+    vim.command("setlocal buftype=nofile")
+    vim.command("setlocal modifiable")
+
+    contents = git.show_file(fname, rev)
+    cb = vim.current.buffer
+    for gline in contents.split("\n"):
+        cb.append(gline)
+
+
 def GitPreviousRevision():
+    """Open a new readonly buffer with the current file's previous revision contents"""
     git = GitWrapper()
     fname = _working_file()
 
@@ -82,16 +96,11 @@ def GitPreviousRevision():
         revisions = git.changed_revisions(fname)
         rev = revisions[1]
 
-    vim.command("silent keepjumps :open %s:%s" % (fname, rev))
-    vim.command("setlocal buftype=nofile")
-    vim.command("setlocal modifiable")
+    _fillGitRevisionBuffer(fname, rev)
 
-    contents = git.show_file(fname, rev)
-    cb = vim.current.buffer
-    for gline in contents.split("\n"):
-        cb.append(gline)
 
 def GitNextRevision():
+    """Fills the current git revision buffer with the next revion's content"""
     git = GitWrapper()
     fname = _working_file()
 
@@ -110,11 +119,4 @@ def GitNextRevision():
         print "Not in git vevision buffer -- call GitPreviousRevision first"
         return
 
-    vim.command("silent keepjumps :open %s:%s" % (fname, rev))
-    vim.command("setlocal buftype=nofile")
-    vim.command("setlocal modifiable")
-
-    contents = git.show_file(fname, rev)
-    cb = vim.current.buffer
-    for gline in contents.split("\n"):
-        cb.append(gline)
+    _fillGitRevisionBuffer(fname, rev)
