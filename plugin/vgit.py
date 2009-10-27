@@ -1,3 +1,25 @@
+# Some functions to work with git repositories in vim. The two currently
+# written allows you to view previous revisions of the file you're currently
+# working on.
+#
+# Usage:
+#
+# You'll need to add something like the following to your vimrc:
+#
+#   :pyfile ~/.vim/plugin/vgit.py
+#   nmap <Leader>gn :python GitPreviousRevision()<CR>
+#   nmap <Leader>gm :python GitNextRevision()<CR>
+#
+# GitPreviousRevision -- grabs the previous revision of the file in the 
+#                        current buffer and display it in a new buffer
+#
+# GitNextRevision     -- grabs the next revision of the file in the 
+#                        current revision buffer and display it                
+#
+# Author: Tim Disney (tim DOT disney AT gmail DOT com)
+#
+# Copyright (c) 2009 Tim Disney
+# Licensed under the MIT license
 import os, vim
 
 class GitUtilsError(Exception):
