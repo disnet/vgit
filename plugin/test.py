@@ -1,11 +1,12 @@
 import vim, unittest
-from gitutils import *
+from vgit import *
 from mock import Mock
 
 class GitUtilsTest(unittest.TestCase):
     def setUp(self):
         v = vim.Vim()
         self.git = GitUtils(v)
+
 
 class GitWrapperTest(unittest.TestCase):
     def setUp(self):
